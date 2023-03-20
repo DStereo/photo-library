@@ -43,6 +43,14 @@ describe('StorageService', () => {
       expect(result).toEqual([1, 2, 3]);
     });
 
+    it('should get null', () => {
+      spyOn(windowSpy.localStorage, 'getItem').and.returnValue(null);
+
+      const result = service.getItem('favorites');
+
+      expect(result).toBeNull();
+    });
+
     it('should throw an error', () => {
       spyOn(windowSpy.localStorage, 'getItem').and.returnValue('[1, 2, 3');
 

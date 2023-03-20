@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     this.images = this.activatedRoute.snapshot.data['images'];
   }
 
-  addToFavorites(id: string): void {
-    this.favoritesService.addToFavorites(id);
+  addToFavorites(image: Image): void {
+    this.favoritesService.addToFavorites(image);
   }
 }

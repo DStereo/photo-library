@@ -1,9 +1,11 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
 import { ImagesService } from './images.service';
 import { IMAGES_API_URL, IMAGES_DETAILS_SIZE, IMAGES_LIST_SIZE, IMAGES_PAGE_LIMIT } from './images.token';
+
+import { Image } from './images.model';
 
 describe('ImagesService', () => {
   let service: ImagesService;
@@ -52,22 +54,80 @@ describe('ImagesService', () => {
   });
 
   describe('getImages', () => {
-    it('should return an array of images', () => {
+    it('should return an array of images', fakeAsync(() => {
       const page = 0;
 
-      service.getImages(page);
+      httpClientSpy.get.and.returnValue(
+        of([
+          {
+            id: '1',
+            author: 'author',
+            width: 5000,
+            height: 3333,
+            url: 'url',
+            download_url: 'download_url/id/1/5000/3333',
+          },
+        ])
+      );
+
+      let result: Image[] = [];
+
+      const sub = service.getImages(page).subscribe((images) => {
+        result = images;
+      });
+
+      tick();
 
       expect(httpClientSpy.get).toHaveBeenCalledWith(`${imagesApiUrl}/v2/list?page=${page}&limit=${imagesPageLimit}`);
-    });
+      expect(result).toEqual([
+        {
+          id: '1',
+          author: 'author',
+          width: 300,
+          height: 300,
+          url: 'url',
+          download_url: 'download_url/id/1/300',
+        },
+      ]);
+
+      sub.unsubscribe();
+    }));
   });
 
   describe('getImage', () => {
-    it('should return an image', () => {
+    it('should return an image', fakeAsync(() => {
       const id = 'id';
 
-      service.getImageDetails(id);
+      httpClientSpy.get.and.returnValue(
+        of({
+          id: '1',
+          author: 'author',
+          width: 5000,
+          height: 3333,
+          url: 'url',
+          download_url: 'download_url/id/1/5000/3333',
+        })
+      );
+
+      let result: Image = {} as Image;
+
+      const sub = service.getImageDetails(id).subscribe((image) => {
+        result = image;
+      });
+
+      tick();
 
       expect(httpClientSpy.get).toHaveBeenCalledWith(`${imagesApiUrl}/id/${id}/info`);
-    });
+      expect(result).toEqual({
+        id: '1',
+        author: 'author',
+        width: 600,
+        height: 600,
+        url: 'url',
+        download_url: 'download_url/id/1/600',
+      });
+
+      sub.unsubscribe();
+    }));
   });
 });

@@ -1,1 +1,5 @@
-<p>favorites works!</p>
+<mat-grid-list cols="3">
+  <mat-grid-tile *ngFor="let image of favorites">
+    <a [routerLink]="['/photos', image.id]"><img [src]="image.download_url" [alt]="image.id" /></a
+  ></mat-grid-tile>
+</mat-grid-list>

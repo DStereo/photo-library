@@ -1,5 +1,5 @@
 <mat-grid-list cols="3">
-  <mat-grid-tile *ngFor="let image of images" (click)="addToFavorites(image.id)"
+  <mat-grid-tile *ngFor="let image of images" (click)="addToFavorites(image)"
     ><img [src]="image.download_url" [alt]="image.id"
   /></mat-grid-tile>
 </mat-grid-list>
