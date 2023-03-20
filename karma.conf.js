@@ -1,6 +1,8 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
+const path = require("path");
+
 const reportsFolder = path.join(__dirname, "./coverage/photo-library");
 
 module.exports = function (config) {
