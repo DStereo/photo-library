@@ -1,0 +1,9 @@
+@use 'sass:math';
+
+@function stripUnit($value) {
+  @return math.div($value, ($value * 0 + 1));
+}
+
+@function rem($value) {
+  @return math.div(stripUnit($value), stripUnit($font-size-browser-base)) * 1rem;
+}
