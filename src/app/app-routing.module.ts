@@ -1,10 +1,15 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+import { ImagesResolver } from './shared/images/images.resolver';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
+    resolve: {
+      images: () => inject(ImagesResolver).resolve(),
+    },
     loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
   },
   {

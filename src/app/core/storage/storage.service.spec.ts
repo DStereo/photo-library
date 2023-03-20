@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { StorageService } from './storage.service';
+import { WINDOW } from '../window/window.token';
 import { STORAGE_KEY } from './storage.token';
 
 describe('StorageService', () => {
@@ -9,7 +10,7 @@ describe('StorageService', () => {
   const storageKey = 'storage-key';
 
   beforeEach(() => {
-    windowSpy = jasmine.createSpyObj('Window', {
+    windowSpy = jasmine.createSpyObj('Window', [], {
       localStorage: {
         setItem: () => {},
         getItem: () => {},
@@ -20,7 +21,7 @@ describe('StorageService', () => {
     TestBed.configureTestingModule({
       providers: [
         StorageService,
-        { provide: 'WINDOW', useValue: windowSpy },
+        { provide: WINDOW, useValue: windowSpy },
         { provide: STORAGE_KEY, useValue: storageKey },
       ],
     });
@@ -34,20 +35,28 @@ describe('StorageService', () => {
 
   describe('getItem', () => {
     it('should call localStorage.getItem', () => {
-      service.getItem('item-key');
+      const getItemSpy = spyOn(windowSpy.localStorage, 'getItem').and.returnValue('[1, 2, 3]');
 
-      expect(windowSpy.localStorage.getItem).toHaveBeenCalledWith(`${storageKey}-item-key`);
+      const result = service.getItem('favorites');
+
+      expect(getItemSpy).toHaveBeenCalledWith(`${storageKey}-favorites`);
+      expect(result).toEqual([1, 2, 3]);
+    });
+
+    it('should throw an error', () => {
+      spyOn(windowSpy.localStorage, 'getItem').and.returnValue('[1, 2, 3');
+
+      expect(() => service.getItem('favorites')).toThrowError('StorageService.getItem: Error while getting item');
     });
   });
 
   describe('setItem', () => {
     it('should call localStorage.setItem', () => {
-      service.setItem('item-key', 'item-value');
+      const setItemSpy = spyOn(windowSpy.localStorage, 'setItem');
 
-      expect(windowSpy.localStorage.setItem).toHaveBeenCalledWith(
-        `${storageKey}-item-key`,
-        JSON.stringify('item-value')
-      );
+      service.setItem('favorites', 'item-value');
+
+      expect(setItemSpy).toHaveBeenCalledWith(`${storageKey}-favorites`, JSON.stringify('item-value'));
     });
 
     it('should throw an error', () => {
@@ -61,9 +70,11 @@ describe('StorageService', () => {
 
   describe('removeItem', () => {
     it('should call localStorage.removeItem', () => {
+      const removeItemSpy = spyOn(windowSpy.localStorage, 'removeItem');
+
       service.removeItem('item-key');
 
-      expect(windowSpy.localStorage.removeItem).toHaveBeenCalledWith(`${storageKey}-item-key`);
+      expect(removeItemSpy).toHaveBeenCalledWith(`${storageKey}-item-key`);
     });
   });
 });

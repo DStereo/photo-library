@@ -8,6 +8,10 @@ import { StorageService } from '../../core/storage/storage.service';
 export class FavoritesService {
   constructor(private storageService: StorageService) {}
 
+  getFavorites(): string[] {
+    return this.storageService.getItem('favorites') || [];
+  }
+
   addToFavorites(id: string): void {
     const favorites = this.storageService.getItem('favorites') || [];
     favorites.push(id);

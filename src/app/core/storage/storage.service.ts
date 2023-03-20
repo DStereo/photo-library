@@ -10,7 +10,13 @@ export class StorageService {
   constructor(@Inject(WINDOW) private window: Window, @Inject(STORAGE_KEY) private storageKey: string) {}
 
   getItem(key: string): any {
-    this.window.localStorage.getItem(`${this.storageKey}-${key}`);
+    try {
+      const item = this.window.localStorage.getItem(`${this.storageKey}-${key}`);
+
+      return item ? JSON.parse(item) : item;
+    } catch (e) {
+      throw new Error('StorageService.getItem: Error while getting item');
+    }
   }
 
   setItem(key: string, item: any): void {

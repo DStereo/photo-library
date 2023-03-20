@@ -1,1 +1,5 @@
-<p>home works!</p>
+<mat-grid-list cols="3">
+  <mat-grid-tile *ngFor="let image of images" (click)="addToFavorites(image.id)"
+    ><img [src]="image.download_url" [alt]="image.id"
+  /></mat-grid-tile>
+</mat-grid-list>
