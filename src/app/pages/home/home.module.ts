@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatRippleModule } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 
 import { HomeRoutingModule } from './home-routing.module';
@@ -9,6 +10,6 @@ import { InfiniteScrollModule } from '@shared/infinite-scroll/infinite-scroll.mo
 
 @NgModule({
   declarations: [HomeComponent],
-  imports: [CommonModule, HomeRoutingModule, MatGridListModule, InfiniteScrollModule],
+  imports: [CommonModule, HomeRoutingModule, MatRippleModule, MatGridListModule, InfiniteScrollModule],
 })
 export class HomeModule {}

@@ -1,6 +1,10 @@
 <app-infinite-scroll [loading]="loading" (scrolled)="onScrollDown()">
   <mat-grid-list cols="3">
-    <mat-grid-tile *ngFor="let photo of photos; trackBy: trackByFn" (click)="addToFavorites(photo)"
+    <mat-grid-tile
+      class="pointer"
+      matRipple
+      *ngFor="let photo of photos; trackBy: trackByFn"
+      (click)="addToFavorites(photo)"
       ><img [src]="photo.download_url" [alt]="photo.id"
     /></mat-grid-tile>
   </mat-grid-list>
