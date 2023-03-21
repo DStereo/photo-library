@@ -10,16 +10,20 @@ import { Image } from '../images/images.model';
 export class FavoritesService {
   constructor(private storageService: StorageService) {}
 
-  getFavorites(): { [key: string]: Image } {
+  getAllFavorites(): { [key: string]: Image } {
     return this.storageService.getItem('favorites') || {};
   }
 
-  getFavoritesArray(): Image[] {
-    return Object.values(this.getFavorites());
+  getAllFavoritesArray(): Image[] {
+    return Object.values(this.getAllFavorites());
+  }
+
+  getFavorite(id: string): Image | undefined {
+    return this.getAllFavorites()[id];
   }
 
   addToFavorites(image: Image): void {
-    let favorites = this.getFavorites();
+    let favorites = this.getAllFavorites();
 
     favorites = {
       ...favorites,
@@ -30,7 +34,7 @@ export class FavoritesService {
   }
 
   removeFromFavorites(id: string): void {
-    let favorites = this.getFavorites();
+    let favorites = this.getAllFavorites();
 
     favorites = Object.keys(favorites)
       .filter((favoriteId: string) => favoriteId !== id)

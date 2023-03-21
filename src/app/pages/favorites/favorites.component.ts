@@ -14,6 +14,6 @@ export class FavoritesComponent implements OnInit {
   constructor(private favoritesService: FavoritesService) {}
 
   ngOnInit(): void {
-    this.favorites = this.favoritesService.getFavoritesArray();
+    this.favorites = this.favoritesService.getAllFavoritesArray();
   }
 }

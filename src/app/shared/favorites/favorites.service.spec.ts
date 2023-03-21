@@ -49,14 +49,14 @@ describe('FavoritesService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getFavorites', () => {
+  describe('getAllFavorites', () => {
     it('should return favorites', () => {
       storageServiceSpy.getItem.and.returnValue({
         'id-1': firstImage,
         'id-2': secondImage,
       });
 
-      const result = service.getFavorites();
+      const result = service.getAllFavorites();
 
       expect(storageServiceSpy.getItem).toHaveBeenCalledWith('favorites');
       expect(result).toEqual({
@@ -68,21 +68,21 @@ describe('FavoritesService', () => {
     it('should return empty array when favorites is empty', () => {
       storageServiceSpy.getItem.and.returnValue(null);
 
-      const result = service.getFavorites();
+      const result = service.getAllFavorites();
 
       expect(storageServiceSpy.getItem).toHaveBeenCalledWith('favorites');
       expect(result).toEqual({});
     });
   });
 
-  describe('getFavoritesArray', () => {
+  describe('getAllFavoritesArray', () => {
     it('should return favorites as array', () => {
       storageServiceSpy.getItem.and.returnValue({
         'id-1': firstImage,
         'id-2': secondImage,
       });
 
-      const result = service.getFavoritesArray();
+      const result = service.getAllFavoritesArray();
 
       expect(storageServiceSpy.getItem).toHaveBeenCalledWith('favorites');
       expect(result).toEqual([firstImage, secondImage]);
@@ -91,10 +91,36 @@ describe('FavoritesService', () => {
     it('should return empty array when favorites is empty', () => {
       storageServiceSpy.getItem.and.returnValue(null);
 
-      const result = service.getFavoritesArray();
+      const result = service.getAllFavoritesArray();
 
       expect(storageServiceSpy.getItem).toHaveBeenCalledWith('favorites');
       expect(result).toEqual([]);
+    });
+  });
+
+  describe('getFavorite', () => {
+    it('should return favorite', () => {
+      storageServiceSpy.getItem.and.returnValue({
+        'id-1': firstImage,
+        'id-2': secondImage,
+      });
+
+      const result = service.getFavorite('id-1');
+
+      expect(storageServiceSpy.getItem).toHaveBeenCalledWith('favorites');
+      expect(result).toEqual(firstImage);
+    });
+
+    it('should return undefined when favorite is not found', () => {
+      storageServiceSpy.getItem.and.returnValue({
+        'id-1': firstImage,
+        'id-2': secondImage,
+      });
+
+      const result = service.getFavorite('id-3');
+
+      expect(storageServiceSpy.getItem).toHaveBeenCalledWith('favorites');
+      expect(result).toBeUndefined();
     });
   });
 

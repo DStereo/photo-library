@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { FavoritesService } from '../../shared/favorites/favorites.service';
 
@@ -12,10 +14,11 @@ describe('FavoritesComponent', () => {
   let favoritesServiceSpy: jasmine.SpyObj<FavoritesService>;
 
   beforeEach(async () => {
-    favoritesServiceSpy = jasmine.createSpyObj('FavoritesService', ['getFavoritesArray']);
+    favoritesServiceSpy = jasmine.createSpyObj('FavoritesService', ['getAllFavoritesArray']);
 
     await TestBed.configureTestingModule({
       declarations: [FavoritesComponent],
+      imports: [RouterTestingModule, MatGridListModule],
       providers: [
         {
           provide: FavoritesService,
@@ -45,7 +48,7 @@ describe('FavoritesComponent', () => {
         },
       ];
 
-      favoritesServiceSpy.getFavoritesArray.and.returnValue(favorites);
+      favoritesServiceSpy.getAllFavoritesArray.and.returnValue(favorites);
 
       fixture.detectChanges();
 

@@ -1,14 +1,15 @@
-import { inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ImagesResolver } from './shared/images/images.resolver';
+import { photosResolver } from './shared/images/photos-resolver';
+import { photoDetailsResolver } from './shared/images/photo-details.resolver';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
     resolve: {
-      images: () => inject(ImagesResolver).resolve(),
+      photos: photosResolver,
     },
     loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
   },
@@ -18,6 +19,9 @@ const routes: Routes = [
   },
   {
     path: 'photos/:id',
+    resolve: {
+      image: photoDetailsResolver,
+    },
     loadChildren: () => import('./pages/photo-details/photo-details.module').then((m) => m.PhotoDetailsModule),
   },
   {
