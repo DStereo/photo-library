@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { photosResolver } from './shared/photos/photos-resolver';
-import { photoDetailsResolver } from './shared/photos/photo-details.resolver';
+import { photosResolver } from '@shared/photos/photos-resolver';
+import { photoDetailsResolver } from '@shared/photos/photo-details.resolver';
 
 const routes: Routes = [
   {

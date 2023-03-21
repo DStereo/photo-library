@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { FavoritesService } from './favorites.service';
-import { StorageService } from '../../core/storage/storage.service';
+import { StorageService } from '@core/storage/storage.service';
 
 import { Photo } from '../photos/photo.model';
 

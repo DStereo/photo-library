@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs';
 
-import { FavoritesService } from '../../shared/favorites/favorites.service';
-import { NavigationService } from '../../shared/navigation/navigation.service';
+import { FavoritesService } from '@shared/favorites/favorites.service';
+import { NavigationService } from '@shared/navigation/navigation.service';
 
-import { DestroyDirective } from '../../shared/destroy/destroy.directive';
+import { DestroyDirective } from '@shared/destroy/destroy.directive';
 
-import { Photo } from '../../shared/photos/photo.model';
+import { Photo } from '@shared/photos/photo.model';
 
 @Component({
   selector: 'app-photo-details',

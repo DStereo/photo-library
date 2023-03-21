@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { FavoritesService } from '../../shared/favorites/favorites.service';
+import { FavoritesService } from '@shared/favorites/favorites.service';
 
-import { Photo } from '../../shared/photos/photo.model';
+import { Photo } from '@shared/photos/photo.model';
 
 @Component({
   selector: 'app-home',

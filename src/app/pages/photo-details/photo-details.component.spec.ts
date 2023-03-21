@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FavoritesService } from '../../shared/favorites/favorites.service';
-import { NavigationService } from '../../shared/navigation/navigation.service';
+import { FavoritesService } from '@shared/favorites/favorites.service';
+import { NavigationService } from '@shared/navigation/navigation.service';
 
 import { PhotoDetailsComponent } from './photo-details.component';
 

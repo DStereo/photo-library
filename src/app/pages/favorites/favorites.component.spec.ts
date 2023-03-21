@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatGridListModule } from '@angular/material/grid-list';
 
-import { FavoritesService } from '../../shared/favorites/favorites.service';
+import { FavoritesService } from '@shared/favorites/favorites.service';
 
 import { FavoritesComponent } from './favorites.component';
 
-import { Photo } from '../../shared/photos/photo.model';
+import { Photo } from '@shared/photos/photo.model';
 
 describe('FavoritesComponent', () => {
   let component: FavoritesComponent;

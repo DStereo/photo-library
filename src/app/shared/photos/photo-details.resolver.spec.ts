@@ -14,8 +14,8 @@ import { photoDetailsResolver } from './photo-details.resolver';
 import { NavigationService } from '../navigation/navigation.service';
 import { FavoritesService } from '../favorites/favorites.service';
 
-import { HomeComponent } from '../../pages/home/home.component';
-import { PhotoDetailsComponent } from '../../pages/photo-details/photo-details.component';
+import { HomeComponent } from '@app/pages/home/home.component';
+import { PhotoDetailsComponent } from '@app/pages/photo-details/photo-details.component';
 
 import { Photo } from './photo.model';
 
