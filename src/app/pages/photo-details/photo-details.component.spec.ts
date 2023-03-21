@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatCardModule } from '@angular/material/card';
 
 import { FavoritesService } from '@shared/favorites/favorites.service';
 import { NavigationService } from '@shared/navigation/navigation.service';
@@ -17,6 +19,7 @@ describe('PhotoDetailsComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [PhotoDetailsComponent],
+      imports: [RouterTestingModule, MatCardModule],
       providers: [
         {
           provide: FavoritesService,

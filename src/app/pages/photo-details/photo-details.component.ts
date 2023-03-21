@@ -7,7 +7,7 @@ import { NavigationService } from '@shared/navigation/navigation.service';
 
 import { DestroyDirective } from '@shared/destroy/destroy.directive';
 
-import { Photo } from '@shared/photos/photo.model';
+import { Photo } from '@shared/photos/photos.model';
 
 @Component({
   selector: 'app-photo-details',

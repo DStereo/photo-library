@@ -1,4 +1,4 @@
-import { Photo } from './photo.model';
+import { Photo } from './photos.model';
 
 export function convertPhotoSizes(photo: Photo, size: number): Photo {
   const { id } = photo;

@@ -1,34 +1,34 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { delay, map, Observable } from 'rxjs';
 
-import { PHOTOS_API_URL, PHOTOS_DETAILS_SIZE, PHOTOS_LIST_SIZE, PHOTOS_PAGE_LIMIT } from './photos.token';
+import { PHOTOS_CONFIG } from './photos.token';
 
 import { convertPhotoSizes, convertPhotosSizes } from './photos.helpers';
 
-import { Photo } from './photo.model';
+import { Photo, PhotosConfig } from './photos.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PhotosService {
-  constructor(
-    @Inject(PHOTOS_API_URL) private photosApiUrl: string,
-    @Inject(PHOTOS_PAGE_LIMIT) private photosPageLimit: number,
-    @Inject(PHOTOS_LIST_SIZE) private photosListSize: number,
-    @Inject(PHOTOS_DETAILS_SIZE) private photosDetailsSize: number,
-    private httpClient: HttpClient
-  ) {}
+  constructor(@Inject(PHOTOS_CONFIG) private photosConfig: PhotosConfig, private httpClient: HttpClient) {}
 
   getPhotos(page: number): Observable<Photo[]> {
-    return this.httpClient
-      .get<Photo[]>(`${this.photosApiUrl}/v2/list?page=${page}&limit=${this.photosPageLimit}`)
-      .pipe(map((photos) => convertPhotosSizes(photos, this.photosListSize)));
+    const { apiUrl, pageLimit, listSize, apiDelay } = this.photosConfig;
+
+    return this.httpClient.get<Photo[]>(`${apiUrl}/v2/list?page=${page}&limit=${pageLimit}`).pipe(
+      map((photos) => convertPhotosSizes(photos, listSize)),
+      delay(apiDelay)
+    );
   }
 
   getPhotoDetails(id: string): Observable<Photo> {
-    return this.httpClient
-      .get<Photo>(`${this.photosApiUrl}/id/${id}/info`)
-      .pipe(map((photo) => convertPhotoSizes(photo, this.photosDetailsSize)));
+    const { apiUrl, detailsSize, apiDelay } = this.photosConfig;
+
+    return this.httpClient.get<Photo>(`${apiUrl}/id/${id}/info`).pipe(
+      map((photo) => convertPhotoSizes(photo, detailsSize)),
+      delay(apiDelay)
+    );
   }
 }

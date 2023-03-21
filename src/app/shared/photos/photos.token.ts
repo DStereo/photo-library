@@ -1,25 +1,16 @@
 import { InjectionToken } from '@angular/core';
 
-export const PHOTOS_API_URL = new InjectionToken<string>('PHOTOS_API_URL');
-export const PHOTOS_PAGE_LIMIT = new InjectionToken<number>('PHOTOS_LIMIT');
-export const PHOTOS_LIST_SIZE = new InjectionToken<number>('PHOTOS_LIST_SIZE');
-export const PHOTOS_DETAILS_SIZE = new InjectionToken<number>('PHOTOS_DETAILS_SIZE');
+export const PHOTOS_CONFIG = new InjectionToken<string>('PHOTOS_CONFIG');
 
-export const PHOTOS_API_URL_PROVIDERS = [
+export const PHOTOS_PROVIDERS = [
   {
-    provide: PHOTOS_API_URL,
-    useValue: 'https://picsum.photos',
-  },
-  {
-    provide: PHOTOS_PAGE_LIMIT,
-    useValue: 9,
-  },
-  {
-    provide: PHOTOS_LIST_SIZE,
-    useValue: 300,
-  },
-  {
-    provide: PHOTOS_DETAILS_SIZE,
-    useValue: 600,
+    provide: PHOTOS_CONFIG,
+    useValue: {
+      apiUrl: 'https://picsum.photos',
+      apiDelay: 300,
+      pageLimit: 9,
+      listSize: 300,
+      detailsSize: 600,
+    },
   },
 ];

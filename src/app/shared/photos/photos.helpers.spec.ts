@@ -1,6 +1,6 @@
 import { convertPhotosSizes } from './photos.helpers';
 
-import { Photo } from './photo.model';
+import { Photo } from './photos.model';
 
 describe('Photos Helpers', () => {
   describe('convertPhotosSizes', () => {

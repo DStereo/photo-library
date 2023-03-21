@@ -1,18 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { map, timer } from 'rxjs';
 
+import { PHOTOS_CONFIG } from '@shared/photos/photos.token';
 import { FavoritesService } from '@shared/favorites/favorites.service';
+import { PhotosService } from '@shared/photos/photos.service';
+
+import { InfiniteScrollModule } from '@shared/infinite-scroll/infinite-scroll.module';
 
 import { HomeComponent } from './home.component';
 
-import { Photo } from '@shared/photos/photo.model';
+import { Photo, PhotosConfig } from '@shared/photos/photos.model';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let activatedRouteSpy: ActivatedRoute;
   let favoritesServiceSpy: jasmine.SpyObj<FavoritesService>;
+  let photosServiceSpy: jasmine.SpyObj<PhotosService>;
+  const photosConfig: PhotosConfig = {
+    apiUrl: 'url',
+    apiDelay: 300,
+    pageLimit: 9,
+    listSize: 300,
+    detailsSize: 600,
+  };
 
   beforeEach(async () => {
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', [], {
@@ -23,11 +36,16 @@ describe('HomeComponent', () => {
       },
     });
     favoritesServiceSpy = jasmine.createSpyObj('FavoritesService', ['addToFavorites']);
+    photosServiceSpy = jasmine.createSpyObj('PhotosService', ['getPhotos']);
 
     await TestBed.configureTestingModule({
       declarations: [HomeComponent],
-      imports: [MatGridListModule],
+      imports: [MatGridListModule, InfiniteScrollModule],
       providers: [
+        {
+          provide: PHOTOS_CONFIG,
+          useValue: photosConfig,
+        },
         {
           provide: ActivatedRoute,
           useValue: activatedRouteSpy,
@@ -35,6 +53,10 @@ describe('HomeComponent', () => {
         {
           provide: FavoritesService,
           useValue: favoritesServiceSpy,
+        },
+        {
+          provide: PhotosService,
+          useValue: photosServiceSpy,
         },
       ],
     }).compileComponents();
@@ -94,5 +116,46 @@ describe('HomeComponent', () => {
 
       expect(favoritesServiceSpy.addToFavorites).toHaveBeenCalledWith(photo);
     });
+  });
+
+  describe('trackByFn', () => {
+    it('should return id', () => {
+      const id = 'id';
+      const index = 0;
+      const photo = {
+        id,
+      } as Photo;
+
+      expect(component.trackByFn(index, photo)).toBe(id);
+    });
+  });
+
+  describe('onScrollDown', () => {
+    function getMockPhotos(start = 0): Photo[] {
+      return Array.from({ length: photosConfig.pageLimit }).map(
+        (_, index) => ({ id: (index + start).toString() } as Photo)
+      );
+    }
+
+    it('should increase page', fakeAsync(() => {
+      const firstPagePhotos = getMockPhotos();
+
+      component.photos = firstPagePhotos;
+
+      const secondPagePhotos = getMockPhotos(photosConfig.pageLimit);
+      photosServiceSpy.getPhotos.and.returnValue(timer(photosConfig.apiDelay).pipe(map(() => secondPagePhotos)));
+
+      component.onScrollDown();
+
+      expect(component.loading).toBe(true);
+      expect(photosServiceSpy.getPhotos).toHaveBeenCalledWith(1);
+
+      tick(photosConfig.apiDelay);
+
+      expect(component.loading).toBe(false);
+      expect(component.photos).toEqual([...firstPagePhotos, ...secondPagePhotos]);
+
+      fixture.destroy();
+    }));
   });
 });

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { FavoritesService } from './favorites.service';
 import { StorageService } from '@core/storage/storage.service';
 
-import { Photo } from '../photos/photo.model';
+import { Photo } from '@shared/photos/photos.model';
 
 describe('FavoritesService', () => {
   let service: FavoritesService;

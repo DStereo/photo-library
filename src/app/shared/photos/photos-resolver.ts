@@ -3,7 +3,7 @@ import { ResolveFn } from '@angular/router';
 
 import { PhotosService } from './photos.service';
 
-import { Photo } from './photo.model';
+import { Photo } from '@shared/photos/photos.model';
 
 export const photosResolver: ResolveFn<Photo[]> = () => {
   const photosService = inject(PhotosService);

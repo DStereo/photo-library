@@ -3,17 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
 import { PhotosService } from './photos.service';
-import { PHOTOS_API_URL, PHOTOS_DETAILS_SIZE, PHOTOS_LIST_SIZE, PHOTOS_PAGE_LIMIT } from './photos.token';
+import { PHOTOS_CONFIG } from './photos.token';
 
-import { Photo } from './photo.model';
+import { Photo, PhotosConfig } from '@shared/photos/photos.model';
 
 describe('PhotosService', () => {
   let service: PhotosService;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
-  const photosApiUrl = 'url';
-  const photosPageLimit = 9;
-  const photosListSize = 300;
-  const photosDetailsSize = 600;
+  const photosConfig: PhotosConfig = {
+    apiUrl: 'url',
+    apiDelay: 300,
+    pageLimit: 9,
+    listSize: 300,
+    detailsSize: 600,
+  };
 
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', {
@@ -24,20 +27,8 @@ describe('PhotosService', () => {
       providers: [
         PhotosService,
         {
-          provide: PHOTOS_API_URL,
-          useValue: photosApiUrl,
-        },
-        {
-          provide: PHOTOS_PAGE_LIMIT,
-          useValue: photosPageLimit,
-        },
-        {
-          provide: PHOTOS_LIST_SIZE,
-          useValue: photosListSize,
-        },
-        {
-          provide: PHOTOS_DETAILS_SIZE,
-          useValue: photosDetailsSize,
+          provide: PHOTOS_CONFIG,
+          useValue: photosConfig,
         },
         {
           provide: HttpClient,
@@ -56,6 +47,7 @@ describe('PhotosService', () => {
   describe('getPhotos', () => {
     it('should return an array of photos', fakeAsync(() => {
       const page = 0;
+      const { apiUrl, apiDelay, pageLimit } = photosConfig;
 
       httpClientSpy.get.and.returnValue(
         of([
@@ -76,9 +68,9 @@ describe('PhotosService', () => {
         result = photos;
       });
 
-      tick();
+      tick(apiDelay);
 
-      expect(httpClientSpy.get).toHaveBeenCalledWith(`${photosApiUrl}/v2/list?page=${page}&limit=${photosPageLimit}`);
+      expect(httpClientSpy.get).toHaveBeenCalledWith(`${apiUrl}/v2/list?page=${page}&limit=${pageLimit}`);
       expect(result).toEqual([
         {
           id: '1',
@@ -96,6 +88,7 @@ describe('PhotosService', () => {
 
   describe('getPhotoDetails', () => {
     it('should return photo details', fakeAsync(() => {
+      const { apiUrl, apiDelay } = photosConfig;
       const id = 'id';
 
       httpClientSpy.get.and.returnValue(
@@ -113,9 +106,9 @@ describe('PhotosService', () => {
 
       const sub = service.getPhotoDetails(id).subscribe((photo) => (result = photo));
 
-      tick();
+      tick(apiDelay);
 
-      expect(httpClientSpy.get).toHaveBeenCalledWith(`${photosApiUrl}/id/${id}/info`);
+      expect(httpClientSpy.get).toHaveBeenCalledWith(`${apiUrl}/id/${id}/info`);
       expect(result).toEqual({
         id: '1',
         author: 'author',

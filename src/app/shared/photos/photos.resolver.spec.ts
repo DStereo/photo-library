@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { photosResolver } from './photos-resolver';
 import { PhotosService } from './photos.service';
 
-import { Photo } from './photo.model';
+import { Photo } from './photos.model';
 
 describe('photosResolver', () => {
   const executeResolver: ResolveFn<Photo[]> = (...resolverParameters) =>

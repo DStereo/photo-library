@@ -13,11 +13,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { photoDetailsResolver } from './photo-details.resolver';
 import { NavigationService } from '../navigation/navigation.service';
 import { FavoritesService } from '../favorites/favorites.service';
+import { PhotosService } from '@shared/photos/photos.service';
+import { PHOTOS_CONFIG } from '@shared/photos/photos.token';
 
 import { HomeComponent } from '@app/pages/home/home.component';
 import { PhotoDetailsComponent } from '@app/pages/photo-details/photo-details.component';
 
-import { Photo } from './photo.model';
+import { Photo, PhotosConfig } from './photos.model';
 
 describe('photoDetailsResolver', () => {
   const executeResolver: ResolveFn<Photo | boolean> = (...resolverParameters) =>
@@ -29,6 +31,14 @@ describe('photoDetailsResolver', () => {
   let routerStateSpy: jasmine.SpyObj<RouterState>;
   let activatedRouteSnapshot: ActivatedRouteSnapshot;
   let routerStateSnapshot: RouterStateSnapshot;
+  let photosServiceSpy: jasmine.SpyObj<PhotosService>;
+  const photosConfig: PhotosConfig = {
+    apiUrl: 'url',
+    apiDelay: 300,
+    pageLimit: 9,
+    listSize: 300,
+    detailsSize: 600,
+  };
 
   beforeEach(() => {
     navigationServiceSpy = jasmine.createSpyObj('NavigationService', {
@@ -41,6 +51,7 @@ describe('photoDetailsResolver', () => {
       },
     });
     routerStateSpy = jasmine.createSpyObj('RouterState', [], ['snapshot']);
+    photosServiceSpy = jasmine.createSpyObj('PhotosService', ['getPhotoDetails']);
 
     TestBed.configureTestingModule({
       imports: [
@@ -57,6 +68,10 @@ describe('photoDetailsResolver', () => {
       ],
       providers: [
         {
+          provide: PHOTOS_CONFIG,
+          useValue: photosConfig,
+        },
+        {
           provide: NavigationService,
           useValue: navigationServiceSpy,
         },
@@ -71,6 +86,10 @@ describe('photoDetailsResolver', () => {
         {
           provide: ActivatedRoute,
           useValue: activatedRouteSpy,
+        },
+        {
+          provide: PhotosService,
+          useValue: photosServiceSpy,
         },
       ],
     });
@@ -101,13 +120,13 @@ describe('photoDetailsResolver', () => {
       expect(navigationServiceSpy.goToHome).toHaveBeenCalled();
     });
 
-    it('should return favorite if found', () => {
+    it('should call PhotosService.getPhotoDetails if favorite found', () => {
       const favorite = { id: '123' } as Photo;
       favoritesServiceSpy.getFavorite.and.returnValue(favorite);
 
-      const result = executeResolver(activatedRouteSnapshot, routerStateSnapshot);
+      executeResolver(activatedRouteSnapshot, routerStateSnapshot);
 
-      expect(result).toEqual(favorite);
+      expect(photosServiceSpy.getPhotoDetails).toHaveBeenCalledWith(favorite.id);
     });
   });
 });

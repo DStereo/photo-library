@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { StorageService } from '@core/storage/storage.service';
 
-import { Photo } from '../photos/photo.model';
+import { Photo } from '@shared/photos/photos.model';
 
 @Injectable({
   providedIn: 'root',
