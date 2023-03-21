@@ -7,10 +7,11 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "test:headless": "ng test --watch=false --browsers=ChromeHeadless",
-    "test:headless:watch": "ng test --browsers=ChromeHeadless",
-    "test:coverage": "ng test --watch=false --code-coverage",
-    "test:coverage:headless": "ng test --watch=false --code-coverage --browsers=ChromeHeadless"
+    "test:coverage": "ng test --code-coverage",
+    "test:coverage:nowatch": "ng test --watch=false --code-coverage",
+    "test:headless": "ng test --browsers=ChromeHeadless",
+    "test:headless:coverage": "ng test --code-coverage --browsers=ChromeHeadless",
+    "test:headless:coverage:nowatch": "ng test --watch=false --code-coverage --browsers=ChromeHeadless"
   },
   "private": true,
   "dependencies": {
