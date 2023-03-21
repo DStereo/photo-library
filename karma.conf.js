@@ -27,6 +27,9 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     reporters: ["progress", "kjhtml", "coverage", "junit"],
+    jasmineHtmlReporter: {
+      suppressAll: true // removes the duplicated traces
+    },
     coverageReporter: {
       dir: reportsFolder,
       subdir: '.',
@@ -44,10 +47,8 @@ module.exports = function (config) {
       properties: {}, // key value pair of properties to add to the <properties> section of the report
       xmlVersion: null, // use '1' if reporting to be per SonarQube 6.2 XML format
     },
-    browsers: ['ChromeHeadless'],
+    browsers: ['Chrome'],
     colors: true,
-    autoWatch: false,
-    singleRun: true,
-    restartOnFileChange: false
+    restartOnFileChange: true
   });
 };
