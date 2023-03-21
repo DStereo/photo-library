@@ -1,13 +1,9 @@
-<figure class="container">
-  <img
-    class="responsive-image"
-    [src]="photo.download_url"
-    [alt]="photo.author"
-    [width]="photo.width"
-    [height]="photo.height"
-  />
+<mat-card>
+  <mat-card-content class="text-center">
+    <img mat-card-image [src]="photo.download_url" [alt]="photo.author" [width]="photo.width" [height]="photo.height" />
+  </mat-card-content>
 
-  <caption class="caption">
+  <mat-card-actions class="actions">
     <button mat-raised-button color="primary" (click)="removeFromFavorites(photo.id)">Remove from Favorites</button>
-  </caption>
-</figure>
+  </mat-card-actions>
+</mat-card>

@@ -1,14 +1,5 @@
 @import 'src/styles/custom-variables-functions';
 
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.actions {
   justify-content: center;
-}
-
-.caption {
-  display: block;
-  width: 100%;
-  margin-top: rem(16px);
 }
