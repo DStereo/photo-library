@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/en/) (v14.17.0)
+- [Node.js](https://nodejs.org/en/) (min v14.17.0)
 - [Angular CLI](https://cli.angular.io/) (v15.2.4)
 
 ## Installation
