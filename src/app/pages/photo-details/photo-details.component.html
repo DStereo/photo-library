@@ -1,1 +1,13 @@
-<p>photo-details works!</p>
+<figure class="container">
+  <img
+    class="responsive-image"
+    [src]="photo.download_url"
+    [alt]="photo.author"
+    [width]="photo.width"
+    [height]="photo.height"
+  />
+
+  <caption class="caption">
+    <button mat-raised-button color="primary" (click)="removeFromFavorites(photo.id)">Remove from Favorites</button>
+  </caption>
+</figure>

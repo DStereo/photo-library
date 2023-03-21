@@ -3,28 +3,28 @@ import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, RouterState, RouterS
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { photosResolver } from './photos-resolver';
-import { ImagesService } from './images.service';
+import { PhotosService } from './photos.service';
 
-import { Image } from './images.model';
+import { Photo } from './photo.model';
 
 describe('photosResolver', () => {
-  const executeResolver: ResolveFn<Image[]> = (...resolverParameters) =>
+  const executeResolver: ResolveFn<Photo[]> = (...resolverParameters) =>
     TestBed.runInInjectionContext(() => photosResolver(...resolverParameters));
-  let imagesServiceSpy: jasmine.SpyObj<ImagesService>;
+  let photosServiceSpy: jasmine.SpyObj<PhotosService>;
   let routerStateSpy: jasmine.SpyObj<RouterState>;
   let activatedRouteSnapshot: ActivatedRouteSnapshot;
   let routerStateSnapshot: RouterStateSnapshot;
 
   beforeEach(() => {
-    imagesServiceSpy = jasmine.createSpyObj('ImagesService', ['getImages']);
+    photosServiceSpy = jasmine.createSpyObj('PhotosService', ['getPhotos']);
     routerStateSpy = jasmine.createSpyObj('RouterState', [], ['snapshot']);
 
     TestBed.configureTestingModule({
       imports: [RouterTestingModule.withRoutes([])],
       providers: [
         {
-          provide: ImagesService,
-          useValue: imagesServiceSpy,
+          provide: PhotosService,
+          useValue: photosServiceSpy,
         },
         {
           provide: RouterState,
@@ -42,10 +42,10 @@ describe('photosResolver', () => {
   });
 
   describe('resolve', () => {
-    it('should call imagesService.getImages with 0', () => {
+    it('should call photosService.getPhotos with 0', () => {
       executeResolver(activatedRouteSnapshot, routerStateSnapshot);
 
-      expect(imagesServiceSpy.getImages).toHaveBeenCalledWith(0);
+      expect(photosServiceSpy.getPhotos).toHaveBeenCalledWith(0);
     });
   });
 });

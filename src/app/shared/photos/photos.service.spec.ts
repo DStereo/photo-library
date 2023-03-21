@@ -2,18 +2,18 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 
-import { ImagesService } from './images.service';
-import { IMAGES_API_URL, IMAGES_DETAILS_SIZE, IMAGES_LIST_SIZE, IMAGES_PAGE_LIMIT } from './images.token';
+import { PhotosService } from './photos.service';
+import { PHOTOS_API_URL, PHOTOS_DETAILS_SIZE, PHOTOS_LIST_SIZE, PHOTOS_PAGE_LIMIT } from './photos.token';
 
-import { Image } from './images.model';
+import { Photo } from './photo.model';
 
-describe('ImagesService', () => {
-  let service: ImagesService;
+describe('PhotosService', () => {
+  let service: PhotosService;
   let httpClientSpy: jasmine.SpyObj<HttpClient>;
-  const imagesApiUrl = 'url';
-  const imagesPageLimit = 9;
-  const imagesListSize = 300;
-  const imagesDetailsSize = 600;
+  const photosApiUrl = 'url';
+  const photosPageLimit = 9;
+  const photosListSize = 300;
+  const photosDetailsSize = 600;
 
   beforeEach(() => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', {
@@ -22,22 +22,22 @@ describe('ImagesService', () => {
 
     TestBed.configureTestingModule({
       providers: [
-        ImagesService,
+        PhotosService,
         {
-          provide: IMAGES_API_URL,
-          useValue: imagesApiUrl,
+          provide: PHOTOS_API_URL,
+          useValue: photosApiUrl,
         },
         {
-          provide: IMAGES_PAGE_LIMIT,
-          useValue: imagesPageLimit,
+          provide: PHOTOS_PAGE_LIMIT,
+          useValue: photosPageLimit,
         },
         {
-          provide: IMAGES_LIST_SIZE,
-          useValue: imagesListSize,
+          provide: PHOTOS_LIST_SIZE,
+          useValue: photosListSize,
         },
         {
-          provide: IMAGES_DETAILS_SIZE,
-          useValue: imagesDetailsSize,
+          provide: PHOTOS_DETAILS_SIZE,
+          useValue: photosDetailsSize,
         },
         {
           provide: HttpClient,
@@ -46,15 +46,15 @@ describe('ImagesService', () => {
       ],
     });
 
-    service = TestBed.inject(ImagesService);
+    service = TestBed.inject(PhotosService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getImages', () => {
-    it('should return an array of images', fakeAsync(() => {
+  describe('getPhotos', () => {
+    it('should return an array of photos', fakeAsync(() => {
       const page = 0;
 
       httpClientSpy.get.and.returnValue(
@@ -70,15 +70,15 @@ describe('ImagesService', () => {
         ])
       );
 
-      let result: Image[] = [];
+      let result: Photo[] = [];
 
-      const sub = service.getImages(page).subscribe((images) => {
-        result = images;
+      const sub = service.getPhotos(page).subscribe((photos) => {
+        result = photos;
       });
 
       tick();
 
-      expect(httpClientSpy.get).toHaveBeenCalledWith(`${imagesApiUrl}/v2/list?page=${page}&limit=${imagesPageLimit}`);
+      expect(httpClientSpy.get).toHaveBeenCalledWith(`${photosApiUrl}/v2/list?page=${page}&limit=${photosPageLimit}`);
       expect(result).toEqual([
         {
           id: '1',
@@ -94,8 +94,8 @@ describe('ImagesService', () => {
     }));
   });
 
-  describe('getImage', () => {
-    it('should return an image', fakeAsync(() => {
+  describe('getPhotoDetails', () => {
+    it('should return photo details', fakeAsync(() => {
       const id = 'id';
 
       httpClientSpy.get.and.returnValue(
@@ -109,15 +109,13 @@ describe('ImagesService', () => {
         })
       );
 
-      let result: Image = {} as Image;
+      let result: Photo = {} as Photo;
 
-      const sub = service.getImageDetails(id).subscribe((image) => {
-        result = image;
-      });
+      const sub = service.getPhotoDetails(id).subscribe((photo) => (result = photo));
 
       tick();
 
-      expect(httpClientSpy.get).toHaveBeenCalledWith(`${imagesApiUrl}/id/${id}/info`);
+      expect(httpClientSpy.get).toHaveBeenCalledWith(`${photosApiUrl}/id/${id}/info`);
       expect(result).toEqual({
         id: '1',
         author: 'author',

@@ -6,7 +6,7 @@ import { FavoritesService } from '../../shared/favorites/favorites.service';
 
 import { FavoritesComponent } from './favorites.component';
 
-import { Image } from '../../shared/images/images.model';
+import { Photo } from '../../shared/photos/photo.model';
 
 describe('FavoritesComponent', () => {
   let component: FavoritesComponent;
@@ -37,7 +37,7 @@ describe('FavoritesComponent', () => {
 
   describe('ngOnInit', () => {
     it('should set favorites', () => {
-      const favorites: Image[] = [
+      const favorites: Photo[] = [
         {
           id: 'id-1',
           author: 'author-1',

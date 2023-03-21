@@ -1,11 +1,11 @@
-import { convertImagesSizes } from './images.helpers';
+import { convertPhotosSizes } from './photos.helpers';
 
-import { Image } from './images.model';
+import { Photo } from './photo.model';
 
-describe('Images Helpers', () => {
-  describe('convertImagesSizes', () => {
-    it('should convert images sizes', () => {
-      const images: Image[] = [
+describe('Photos Helpers', () => {
+  describe('convertPhotosSizes', () => {
+    it('should convert photos sizes', () => {
+      const photos: Photo[] = [
         {
           id: '1',
           author: 'author',
@@ -15,7 +15,7 @@ describe('Images Helpers', () => {
           download_url: 'https://photos.com/id/1/5000/3333',
         },
       ];
-      const expectedImages: Image[] = [
+      const expectedPhotos: Photo[] = [
         {
           id: '1',
           author: 'author',
@@ -28,9 +28,9 @@ describe('Images Helpers', () => {
 
       const size = 300;
 
-      const convertedImages = convertImagesSizes(images, size);
+      const convertedPhotos = convertPhotosSizes(photos, size);
 
-      expect(convertedImages).toEqual(expectedImages);
+      expect(convertedPhotos).toEqual(expectedPhotos);
     });
   });
 });

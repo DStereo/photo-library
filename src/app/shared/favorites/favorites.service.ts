@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { StorageService } from '../../core/storage/storage.service';
 
-import { Image } from '../images/images.model';
+import { Photo } from '../photos/photo.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,24 +10,24 @@ import { Image } from '../images/images.model';
 export class FavoritesService {
   constructor(private storageService: StorageService) {}
 
-  getAllFavorites(): { [key: string]: Image } {
+  getAllFavorites(): { [key: string]: Photo } {
     return this.storageService.getItem('favorites') || {};
   }
 
-  getAllFavoritesArray(): Image[] {
+  getAllFavoritesArray(): Photo[] {
     return Object.values(this.getAllFavorites());
   }
 
-  getFavorite(id: string): Image | undefined {
+  getFavorite(id: string): Photo | undefined {
     return this.getAllFavorites()[id];
   }
 
-  addToFavorites(image: Image): void {
+  addToFavorites(photo: Photo): void {
     let favorites = this.getAllFavorites();
 
     favorites = {
       ...favorites,
-      [image.id]: image,
+      [photo.id]: photo,
     };
 
     this.storageService.setItem('favorites', favorites);

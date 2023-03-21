@@ -6,7 +6,7 @@ import { FavoritesService } from '../../shared/favorites/favorites.service';
 
 import { HomeComponent } from './home.component';
 
-import { Image } from '../../shared/images/images.model';
+import { Photo } from '../../shared/photos/photo.model';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -18,7 +18,7 @@ describe('HomeComponent', () => {
     activatedRouteSpy = jasmine.createSpyObj('ActivatedRoute', [], {
       snapshot: {
         data: {
-          images: [],
+          photos: [],
         },
       },
     });
@@ -51,8 +51,8 @@ describe('HomeComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should set images', () => {
-      const images: Image[] = [
+    it('should set photos', () => {
+      const photos: Photo[] = [
         {
           id: 'id-1',
           author: 'author-1',
@@ -71,17 +71,17 @@ describe('HomeComponent', () => {
         },
       ];
 
-      activatedRouteSpy.snapshot.data['images'] = images;
+      activatedRouteSpy.snapshot.data['photos'] = photos;
 
       component.ngOnInit();
 
-      expect(component.images).toEqual(images);
+      expect(component.photos).toEqual(photos);
     });
   });
 
   describe('addToFavorites', () => {
-    it('should add an image to favorites', () => {
-      const image: Image = {
+    it('should add an photo to favorites', () => {
+      const photo: Photo = {
         id: 'id-1',
         author: 'author-1',
         width: 300,
@@ -90,9 +90,9 @@ describe('HomeComponent', () => {
         download_url: 'download_url-1',
       };
 
-      component.addToFavorites(image);
+      component.addToFavorites(photo);
 
-      expect(favoritesServiceSpy.addToFavorites).toHaveBeenCalledWith(image);
+      expect(favoritesServiceSpy.addToFavorites).toHaveBeenCalledWith(photo);
     });
   });
 });

@@ -3,22 +3,22 @@ import { ActivatedRoute } from '@angular/router';
 
 import { FavoritesService } from '../../shared/favorites/favorites.service';
 
-import { Image } from '../../shared/images/images.model';
+import { Photo } from '../../shared/photos/photo.model';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  images: Image[] = [];
+  photos: Photo[] = [];
 
   constructor(private activatedRoute: ActivatedRoute, private favoritesService: FavoritesService) {}
 
   ngOnInit(): void {
-    this.images = this.activatedRoute.snapshot.data['images'];
+    this.photos = this.activatedRoute.snapshot.data['photos'];
   }
 
-  addToFavorites(image: Image): void {
-    this.favoritesService.addToFavorites(image);
+  addToFavorites(photo: Photo): void {
+    this.favoritesService.addToFavorites(photo);
   }
 }

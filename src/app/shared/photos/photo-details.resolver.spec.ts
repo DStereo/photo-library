@@ -17,10 +17,10 @@ import { FavoritesService } from '../favorites/favorites.service';
 import { HomeComponent } from '../../pages/home/home.component';
 import { PhotoDetailsComponent } from '../../pages/photo-details/photo-details.component';
 
-import { Image } from './images.model';
+import { Photo } from './photo.model';
 
 describe('photoDetailsResolver', () => {
-  const executeResolver: ResolveFn<Image | boolean> = (...resolverParameters) =>
+  const executeResolver: ResolveFn<Photo | boolean> = (...resolverParameters) =>
     TestBed.runInInjectionContext(() => photoDetailsResolver(...resolverParameters));
   let navigationServiceSpy: jasmine.SpyObj<NavigationService>;
   let favoritesServiceSpy: jasmine.SpyObj<FavoritesService>;
@@ -102,7 +102,7 @@ describe('photoDetailsResolver', () => {
     });
 
     it('should return favorite if found', () => {
-      const favorite = { id: '123' } as Image;
+      const favorite = { id: '123' } as Photo;
       favoritesServiceSpy.getFavorite.and.returnValue(favorite);
 
       const result = executeResolver(activatedRouteSnapshot, routerStateSnapshot);

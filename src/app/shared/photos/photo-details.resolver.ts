@@ -4,12 +4,14 @@ import { from } from 'rxjs';
 
 import { NavigationService } from '../navigation/navigation.service';
 import { FavoritesService } from '../favorites/favorites.service';
+import { PhotosService } from './photos.service';
 
-import { Image } from './images.model';
+import { Photo } from './photo.model';
 
-export const photoDetailsResolver: ResolveFn<Image | boolean> = (route) => {
+export const photoDetailsResolver: ResolveFn<Photo | boolean> = (route) => {
   const navigationService = inject(NavigationService);
   const favoritesService = inject(FavoritesService);
+  const photosService = inject(PhotosService);
 
   const id = route.paramMap.get('id');
 
@@ -23,5 +25,5 @@ export const photoDetailsResolver: ResolveFn<Image | boolean> = (route) => {
     return from(navigationService.goToHome());
   }
 
-  return favorite;
+  return photosService.getPhotoDetails(favorite.id);
 };

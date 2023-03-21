@@ -3,18 +3,18 @@ import { TestBed } from '@angular/core/testing';
 import { FavoritesService } from './favorites.service';
 import { StorageService } from '../../core/storage/storage.service';
 
-import { Image } from '../images/images.model';
+import { Photo } from '../photos/photo.model';
 
 describe('FavoritesService', () => {
   let service: FavoritesService;
   let storageServiceSpy: jasmine.SpyObj<StorageService>;
-  let firstImage: Image;
-  let secondImage: Image;
+  let firstPhoto: Photo;
+  let secondPhoto: Photo;
 
   beforeEach(() => {
     storageServiceSpy = jasmine.createSpyObj('StorageService', ['getItem', 'setItem', 'removeItem']);
 
-    firstImage = {
+    firstPhoto = {
       id: 'id-1',
       author: 'author-1',
       width: 300,
@@ -23,7 +23,7 @@ describe('FavoritesService', () => {
       download_url: 'download_url-1',
     };
 
-    secondImage = {
+    secondPhoto = {
       id: 'id-2',
       author: 'author-2',
       width: 300,
@@ -52,16 +52,16 @@ describe('FavoritesService', () => {
   describe('getAllFavorites', () => {
     it('should return favorites', () => {
       storageServiceSpy.getItem.and.returnValue({
-        'id-1': firstImage,
-        'id-2': secondImage,
+        'id-1': firstPhoto,
+        'id-2': secondPhoto,
       });
 
       const result = service.getAllFavorites();
 
       expect(storageServiceSpy.getItem).toHaveBeenCalledWith('favorites');
       expect(result).toEqual({
-        'id-1': firstImage,
-        'id-2': secondImage,
+        'id-1': firstPhoto,
+        'id-2': secondPhoto,
       });
     });
 
@@ -78,14 +78,14 @@ describe('FavoritesService', () => {
   describe('getAllFavoritesArray', () => {
     it('should return favorites as array', () => {
       storageServiceSpy.getItem.and.returnValue({
-        'id-1': firstImage,
-        'id-2': secondImage,
+        'id-1': firstPhoto,
+        'id-2': secondPhoto,
       });
 
       const result = service.getAllFavoritesArray();
 
       expect(storageServiceSpy.getItem).toHaveBeenCalledWith('favorites');
-      expect(result).toEqual([firstImage, secondImage]);
+      expect(result).toEqual([firstPhoto, secondPhoto]);
     });
 
     it('should return empty array when favorites is empty', () => {
@@ -101,20 +101,20 @@ describe('FavoritesService', () => {
   describe('getFavorite', () => {
     it('should return favorite', () => {
       storageServiceSpy.getItem.and.returnValue({
-        'id-1': firstImage,
-        'id-2': secondImage,
+        'id-1': firstPhoto,
+        'id-2': secondPhoto,
       });
 
       const result = service.getFavorite('id-1');
 
       expect(storageServiceSpy.getItem).toHaveBeenCalledWith('favorites');
-      expect(result).toEqual(firstImage);
+      expect(result).toEqual(firstPhoto);
     });
 
     it('should return undefined when favorite is not found', () => {
       storageServiceSpy.getItem.and.returnValue({
-        'id-1': firstImage,
-        'id-2': secondImage,
+        'id-1': firstPhoto,
+        'id-2': secondPhoto,
       });
 
       const result = service.getFavorite('id-3');
@@ -127,22 +127,22 @@ describe('FavoritesService', () => {
   describe('addToFavorites', () => {
     it('should add an item to favorites', () => {
       storageServiceSpy.getItem.and.returnValue({
-        'id-1': firstImage,
+        'id-1': firstPhoto,
       });
-      service.addToFavorites(secondImage);
+      service.addToFavorites(secondPhoto);
 
       expect(storageServiceSpy.setItem).toHaveBeenCalledWith('favorites', {
-        'id-1': firstImage,
-        'id-2': secondImage,
+        'id-1': firstPhoto,
+        'id-2': secondPhoto,
       });
     });
 
     it('should add an item to favorites when favorites is empty', () => {
       storageServiceSpy.getItem.and.returnValue({});
-      service.addToFavorites(firstImage);
+      service.addToFavorites(firstPhoto);
 
       expect(storageServiceSpy.setItem).toHaveBeenCalledWith('favorites', {
-        'id-1': firstImage,
+        'id-1': firstPhoto,
       });
     });
   });
@@ -150,13 +150,13 @@ describe('FavoritesService', () => {
   describe('removeFromFavorites', () => {
     it('should remove an item from favorites', () => {
       storageServiceSpy.getItem.and.returnValue({
-        'id-1': firstImage,
-        'id-2': secondImage,
+        'id-1': firstPhoto,
+        'id-2': secondPhoto,
       });
       service.removeFromFavorites('id-1');
 
       expect(storageServiceSpy.setItem).toHaveBeenCalledWith('favorites', {
-        'id-2': secondImage,
+        'id-2': secondPhoto,
       });
     });
 
