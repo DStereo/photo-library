@@ -2,9 +2,22 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
 
-## Development server
+## Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- [Node.js](https://nodejs.org/en/) (v14.17.0)
+- [Angular CLI](https://cli.angular.io/) (v15.2.4)
+
+## Installation
+
+- Clone the repository `git clone https://github.com/DStereo/photo-library.git`
+- Make sure you have the prerequisites installed
+- Move into the project directory
+
+Run `npm install` to install all dependencies.
+
+## Running the app
+
+Run `npm start` to start the app. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
@@ -13,6 +26,8 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+Run `ng build --prod` to build the project for production. The build artifacts will be stored in the `dist/` directory.
 
 ## Running unit tests
 
