@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FavoritesService } from '@shared/favorites/favorites.service';
 
-import { Photo } from '@shared/photos/photo.model';
+import { Photo } from '@shared/photos/photos.model';
 
 @Component({
   selector: 'app-favorites',
@@ -15,5 +15,9 @@ export class FavoritesComponent implements OnInit {
 
   ngOnInit(): void {
     this.favorites = this.favoritesService.getAllFavoritesArray();
+  }
+
+  trackByFn(index: number, photo: Photo): string {
+    return photo.id;
   }
 }

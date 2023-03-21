@@ -6,7 +6,7 @@ import { FavoritesService } from '@shared/favorites/favorites.service';
 
 import { FavoritesComponent } from './favorites.component';
 
-import { Photo } from '@shared/photos/photo.model';
+import { Photo } from '@shared/photos/photos.model';
 
 describe('FavoritesComponent', () => {
   let component: FavoritesComponent;
@@ -53,6 +53,18 @@ describe('FavoritesComponent', () => {
       fixture.detectChanges();
 
       expect(component.favorites).toBe(favorites);
+    });
+  });
+
+  describe('trackByFn', () => {
+    it('should return id', () => {
+      const id = 'id';
+      const index = 0;
+      const photo = {
+        id,
+      } as Photo;
+
+      expect(component.trackByFn(index, photo)).toBe(id);
     });
   });
 });

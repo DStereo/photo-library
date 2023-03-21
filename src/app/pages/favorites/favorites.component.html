@@ -1,5 +1,5 @@
 <mat-grid-list cols="3">
-  <mat-grid-tile *ngFor="let photo of favorites">
+  <mat-grid-tile *ngFor="let photo of favorites; trackBy: trackByFn">
     <a [routerLink]="['/photos', photo.id]"><img [src]="photo.download_url" [alt]="photo.id" /></a
   ></mat-grid-tile>
 </mat-grid-list>
